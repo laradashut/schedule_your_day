@@ -1,7 +1,7 @@
 import React from 'react';
 import Todo from './Todo';
 import {connect} from 'react-redux';
-import {addTodo, removeTodo} from './actionCreators';
+import {getTodos, addTodo, removeTodo} from './actionCreators';
 import {Route} from 'react-router-dom';
 import NewEventForm from './NewEventForm'; 
 
@@ -12,6 +12,10 @@ class TodoList extends React.Component {
         this.handleAdd = this.handleAdd.bind(this);
     }
 
+    componentDidMount() {
+        this.props.getTodos();
+    }
+
     handleAdd(val) {
         this.props.addTodo(val);
     }
@@ -19,11 +23,11 @@ class TodoList extends React.Component {
         this.props.removeTodo(id)
     }
     render() {
-        let todos = this.props.todos.map((val, index) => 
+        let todos = this.props.todos.map(val => 
             <Todo 
-                removeTodo={this.removeTodo.bind(this, val.id)} 
+                removeTodo={this.removeTodo.bind(this, val._id)} 
                 task={val.task} 
-                key={index} 
+                key={val._id} 
             /> )
         return (
             <div>
@@ -45,15 +49,18 @@ class TodoList extends React.Component {
 }
 
 function mapStateToProps(state) {
+    debugger
   return {
       todos: state.todos 
   };
 }
 
 function mapDispatchToProps(dispatch) {
+    debugger
     return {
         addTodo: task => dispatch(addTodo(task)),
-        removeTodo: id => dispatch(removeTodo(id))
+        removeTodo: id => dispatch(removeTodo(id)),
+        getTodos: () => dispatch(getTodos())
     }
 }
 

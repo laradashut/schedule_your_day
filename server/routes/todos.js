@@ -1,0 +1,51 @@
+// const express = require("express");
+// const router = express.Router();
+// const Todo = require("../models/todo");
+
+// router.get("/", function (req, res, next) {
+//     debugger
+//     Todo.find({})
+//         .then(todos => console.log(todos))
+//         .then(todos => res.send(todos))
+//         .catch(err => next(err));
+// });
+
+// router.post("/", function (req, res, next) {
+//     Todo.create(req.body)
+//         .then(todo => res.status(201).send(todo))
+//         .catch(err => next(err));
+// });
+
+// router.delete("/:id", function (req, res, next) {
+//     Todo.findByIdAndRemove(req.params.id)
+//         .then(todo => res.send(todo)
+//             .catch(err => next(err)))
+// });
+
+// module.exports = router;
+
+const express = require("express");
+const router = express.Router();
+const Todo = require("../models/todo");
+
+router.get("/", function (req, res, next) {
+    Todo.find({})
+        .exec()
+        .then(todos => console.log(todos))
+        .then(todos => res.send(todos))
+        .catch(err => next(err));
+});
+
+router.post("/", function (req, res, next) {
+    Todo.create(req.body)
+        .then(todo => res.status(201).send(todo))
+        .catch(err => next(err));
+});
+
+router.delete("/:id", function (req, res, next) {
+    Todo.findByIdAndRemove(req.params.id)
+        .then(todo => res.send(todo))
+        .catch(err => next(err));
+});
+
+module.exports = router;
